@@ -4,10 +4,6 @@ export default withAuth({
   pages: {
     signIn: "/login",
   }
-}, {
-  // Optional: Custom logic for redirecting based on role
-  // Note: NextAuth middleware handles authentication
-  // We'll add role-based checks in individual layouts
 })
 
 export const config = {

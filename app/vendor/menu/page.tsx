@@ -143,7 +143,6 @@ export default function VendorMenuPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <Calendar
-                mode="single"
                 selected={selectedDate}
                 onSelect={(date) => date && handleSelectDate(date)}
                 className="rounded-md border"

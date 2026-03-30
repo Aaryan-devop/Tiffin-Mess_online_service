@@ -60,7 +60,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, account }) {
       if (user) {
-        token.role = user.role
+        token.role = (user as any).role
       }
       return token
     },
@@ -91,15 +91,15 @@ export const authOptions: NextAuthOptions = {
 
         // New OAuth user - create them automatically as CONSUMER
         // They can update their profile later
-        const name = profile?.name || profile?.given_name || 'User'
-        const image = profile?.picture || null
+        const name = profile?.name || (profile as any)?.given_name || 'User'
+        const image = (profile as any)?.picture || null
 
         await prisma.user.create({
           data: {
             email,
             name,
-            firstName: profile?.given_name || name.split(' ')[0],
-            lastName: profile?.family_name || name.split(' ').slice(1).join(' '),
+            firstName: (profile as any)?.given_name || name.split(' ')[0],
+            lastName: (profile as any)?.family_name || name.split(' ').slice(1).join(' '),
             image,
             role: 'CONSUMER', // Default to consumer for OAuth
             phone: null, // They can add phone later

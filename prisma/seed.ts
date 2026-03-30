@@ -7,7 +7,7 @@ async function main() {
   console.log("🌱 Starting database seed...")
 
   // Hash a default password
-  const hashedPassword = await bcrypt.hash('password123', 10)
+  const hashedPassword = await bcrypt.hash('password123', 10) as string
 
   // Create a consumer user
   const consumer = await prisma.user.upsert({

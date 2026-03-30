@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -12,42 +12,44 @@ export interface CalendarProps {
   classNames?: Record<string, string>
   showOutsideDays?: boolean
   disabled?: (date: Date) => boolean
-  onDayClick?: (date: Date) => void
   selected?: Date
+  onSelect?: (date: Date | undefined) => void
   defaultMonth?: Date
   month?: Date
   onMonthChange?: (month: Date) => void
-  mode?: "single" | "range" | "multiple"
 }
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  onDayClick,
+  onSelect,
   selected,
   defaultMonth,
   disabled,
+  month,
+  onMonthChange,
   ...props
 }: CalendarProps) {
   return (
     <DayPicker
+      mode="single"
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
         months: "flex flex-col sm:flex-row sm:space-x-4 sm:space-y-0",
         month: "flex flex-col",
         nav: "flex items-center gap-1",
-        button_previous: cn(
+        nav_button_previous: cn(
           buttonVariants({ variant: "outline" }),
           "size-7 absolute left-1"
         ),
-        button_next: cn(
+        nav_button_next: cn(
           buttonVariants({ variant: "outline" }),
           "size-7 absolute right-1"
         ),
-        month_caption: "flex h-10 items-center justify-center relative",
-        dropdowns: "flex justify-center gap-2",
+        caption: "flex h-10 items-center justify-center relative",
+        caption_dropdowns: "flex justify-center gap-2",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
           "size-7 absolute"
@@ -61,9 +63,7 @@ function Calendar({
         row: "flex w-full mt-2",
         cell: cn(
           "relative p-0 text-center text-sm focus-within:relative focus-within:z-20",
-          props.mode === "range"
-            ? "rounded-md [&:has([aria-selected].day-range-end)]:rounded-r-none [&:has([aria-selected].day-range-start)]:rounded-l-none first:[&:has([aria-selected])]:rounded-l-none last:[&:has([aria-selected])]:rounded-r-none"
-            : "[&:has([aria-selected])]:rounded-md"
+          "[&:has([aria-selected])]:rounded-md"
         ),
         day: cn(
           buttonVariants({ variant: "ghost" }),
@@ -88,7 +88,9 @@ function Calendar({
       disabled={disabled}
       selected={selected}
       defaultMonth={defaultMonth}
-      onDayClick={onDayClick}
+      month={month}
+      onMonthChange={onMonthChange}
+      onSelect={onSelect}
       {...props}
     />
   )

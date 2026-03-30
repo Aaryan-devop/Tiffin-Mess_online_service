@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma"
 import { authOptions } from "@/lib/auth"
 import { DateTime } from "luxon"
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
@@ -96,8 +98,8 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    const utilizationRate = vendor.dailyCapacity > 0 ? ((totalMealsSubscribed / vendor.dailyCapacity) * 100).toFixed(1) : 0
-    const pauseRate = totalMealsSubscribed > 0 ? ((totalPausedMeals / totalMealsSubscribed) * 100).toFixed(1) : 0
+    const utilizationRate = vendor.dailyCapacity > 0 ? ((totalMealsSubscribed / vendor.dailyCapacity) * 100).toFixed(1) : "0"
+    const pauseRate = totalMealsSubscribed > 0 ? ((totalPausedMeals / totalMealsSubscribed) * 100).toFixed(1) : "0"
 
     return NextResponse.json({
       totalSubscribers: activeSubscriptions.length,
